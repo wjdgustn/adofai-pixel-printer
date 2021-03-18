@@ -1,0 +1,25 @@
+{
+  "name": "adofai-pixel-printer",
+  "version": "1.0.0",
+  "description": "ADOFAI pixel printer.",
+  "main": "main.js",
+  "scripts": {
+    "build": "npx pkg cli.js"
+  },
+  "author": "Hyonsu",
+  "license": "AGPL-3.0-or-later",
+  "dependencies": {
+    "jimp": "^0.16.1"
+  },
+  "devDependencies": {
+    "pkg": "^4.4.9"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wjdgustn/adofai-pixel-printer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/wjdgustn/adofai-pixel-printer/issues"
+  },
+  "homepage": "https://github.com/wjdgustn/adofai-pixel-printer#readme"
+}
