@@ -109,7 +109,8 @@ rl.on('line', line => {
     let lasthex;
     for(let tile = 0; tile < width * height; tile++) {
         const hex = image.getPixelColor(tile % width * (image.bitmap.width / width), Math.floor(tile / width) * (image.bitmap.height / height));
-        const hexstring = hex.toString(16);
+        let hexstring = hex.toString(16);
+        if(hexstring.length == 7) hexstring = `0${hexstring}`;
         if(hexstring == lasthex) continue;
 
         map.actions.push({ "floor": tile, "eventType": "ColorTrack", "trackColorType": "Single", "trackColor": hexstring, "secondaryTrackColor": "ffffff", "trackColorAnimDuration": 2, "trackColorPulse": "None", "trackPulseLength": 10, "trackStyle": "Standard" });
