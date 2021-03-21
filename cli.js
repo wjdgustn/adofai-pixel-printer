@@ -59,10 +59,10 @@ const adofai_base = `{
 \t\t"lockRot": "Disabled", 
 \t\t"loopBG": "Disabled", 
 \t\t"unscaledSize": 100,
-\t\t"relativeTo": "Player", 
+\t\t"relativeTo": "Tile", 
 \t\t"position": [0, 0], 
 \t\t"rotation": 0, 
-\t\t"zoom": 500,
+\t\t"zoom": 1000,
 \t\t"bgVideo": "", 
 \t\t"loopVideo": "Disabled", 
 \t\t"vidOffset": 0, 
@@ -102,6 +102,12 @@ rl.on('line', line => {
 
     const map = JSON.parse(adofai_base);
     map.pathData = 'R'.repeat(width * height - 1);
+    map.settings.position[0] = width / 2;
+    map.settings.position[1] = height / 2 * -1 + 0.5;
+
+    if(width > height) map.settings.zoom = width / 2 * 35;
+    else map.settings.zoom = height / 2 * 35;
+
     for(let count = 1; count < height; count++) {
         map.actions.push({ "floor": width * count, "eventType": "PositionTrack", "positionOffset": [width * -1, -1], "editorOnly": "Disabled" });
     }
