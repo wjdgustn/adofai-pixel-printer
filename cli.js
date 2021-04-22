@@ -87,11 +87,20 @@ rl.on('line', line => {
             process.stdout.write('맵으로 변환할 얼불춤 맵의 세로 타일 수를 입력해주세요(많을수록 선명한 이미지) : ');
             break;
         case 3:
+            process.stdout.write('길 색상 설정 이펙트로 만들려면 1, 길 색상 다시 설정 이펙트로 만들려면 2를 입력해주세요(모르면 1) : ');
+            break;
+        case 4:
             rl.close();
+            break;
     }
 }).on('close', async () => {
-    if(input.length < 3) {
+    if(input.length < 4) {
         console.log('\n\n변환을 취소합니다.');
+        process.exit(0);
+    }
+
+    if(![ '1' , '2' ].includes(input[3])) {
+        console.log('\n\n이펙트 설정이 잘못되었습니다. 1 또는 2만 입력해주세요.');
         process.exit(0);
     }
 
@@ -117,9 +126,13 @@ rl.on('line', line => {
         const hex = image.getPixelColor(tile % width * (image.bitmap.width / width), Math.floor(tile / width) * (image.bitmap.height / height));
         let hexstring = hex.toString(16);
         if(hexstring.length == 7) hexstring = `0${hexstring}`;
-        if(hexstring == lasthex) continue;
 
-        map.actions.push({ "floor": tile, "eventType": "ColorTrack", "trackColorType": "Single", "trackColor": hexstring, "secondaryTrackColor": "ffffff", "trackColorAnimDuration": 2, "trackColorPulse": "None", "trackPulseLength": 10, "trackStyle": "Standard" });
+        if(input[3] == '1') {
+            if(hexstring == lasthex) continue;
+            map.actions.push({ "floor": tile, "eventType": "ColorTrack", "trackColorType": "Single", "trackColor": hexstring, "secondaryTrackColor": "ffffff", "trackColorAnimDuration": 2, "trackColorPulse": "None", "trackPulseLength": 10, "trackStyle": "Standard" });
+        }
+        else map.actions.push({ "floor": 0, "eventType": "RecolorTrack", "startTile": [tile, "ThisTile"], "endTile": [tile, "ThisTile"], "trackColorType": "Single", "trackColor": hexstring, "secondaryTrackColor": "ffffff", "trackColorAnimDuration": 2, "trackColorPulse": "None", "trackPulseLength": 10, "trackStyle": "Standard", "angleOffset": 0, "eventTag": "" });
+
         lasthex = hexstring;
     }
 
